@@ -24,7 +24,7 @@ def gradient_descent(x,y):
     #learning_rate = 0.0004223
 
     iterations = 400000
-    learning_rate = 0.0004223
+    learning_rate = 0.00042233
     n = len(x)
 
     for i in range(iterations):
