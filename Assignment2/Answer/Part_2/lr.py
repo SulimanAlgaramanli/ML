@@ -51,7 +51,8 @@ if __name__ == "__main__":
     print('Using gradient descent: Coef {} Intercept{}'.format([m], [b]))
     print()
     # predict the grade for a new student
-    new_x= 89
+    new_x = 89
+    #new_x = float(input("Enter your hours study : ")) 
 
     #predict the grade with Using sklearn
     Prediction_Model = b_sklearn + m_sklearn*new_x
@@ -64,7 +65,6 @@ if __name__ == "__main__":
     #Cost function
     print('Initial loss\t:', Cost_fun[0])
     print('Final loss\t:', Cost_fun[-1])
-
 
     #لرسم المعادلة وتمثيل البيانات
     plt.figure(figsize=(8,6))
