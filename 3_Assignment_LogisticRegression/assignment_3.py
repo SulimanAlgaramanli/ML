@@ -89,7 +89,7 @@ class Logistic_Regression():
 
 if __name__ == "__main__":
     # loading the diabetes dataset to a pandas DataFrame
-    dataset_name="Heart.csv"
+    dataset_name="C:\\Users\\sulim\\Downloads\\MyGitHub\\ML\\3_Assignment_LogisticRegression\\Heart.csv"
     learning_rate=0.01
     no_of_iterations=1000
     classifier = Logistic_Regression(dataset_name,learning_rate, no_of_iterations)
@@ -106,7 +106,7 @@ if __name__ == "__main__":
     y_prid = classifier.predict(X_test)
     testing_data_accuracy = accuracy_score( Y_test, y_prid)
     print('Accuracy score of the training data : ', testing_data_accuracy)
-    ## Logistic_Regression 
+    # Logistic_Regression 
     classifier.sklearn_LR(X_train, X_test, Y_train, Y_test)
 
     #Making a Predictive System

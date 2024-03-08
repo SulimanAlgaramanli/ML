@@ -42,7 +42,7 @@ class SVM_Classifier():
         
         # Create a GridSearchCV object and fit it to the training data
         
-        #grid = GridSearchCV(SVC(), param_grid, refit=True, verbose=1)
+        # grid = GridSearchCV(SVC(), param_grid, refit=True, verbose=1)
         grid = GridSearchCV(SVC(), param_grid, refit=True, verbose=2)
 
         grid.fit(X_train, Y_train)
@@ -53,7 +53,7 @@ class SVM_Classifier():
         return grid.best_estimator_
 
 if __name__ == "__main__":
-    dataset_name = "\\Heart.csv"
+    dataset_name = "C:\\Users\\sulim\\Downloads\\MyGitHub\\ML\\4_Assignment_SVM\\Answer\\Heart.csv"
 
     # Load and preprocess the dataset
     svm_classifier = SVM_Classifier(dataset_name)
