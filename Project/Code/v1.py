@@ -1,9 +1,10 @@
 import pandas as pd
-from sklearn.model_selection import KFold
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import classification_report, confusion_matrix, accuracy_score
+from sklearn.metrics import confusion_matrix, accuracy_score
+import matplotlib.pyplot as plt
+import numpy as np
 
 # Naive Bayes تعريف النموذج المتعلق بـ 
 class NaiveBayesModel:
@@ -22,7 +23,7 @@ class NaiveBayesModel:
 # Logistic Regression تعريف النموذج المتعلق بـ 
 class LogisticRegressionModel:
     def __init__(self):
-        self.model = LogisticRegression(max_iter=1000)  # استخدام نموذج Logistic Regression مع زيادة عدد الدورات
+        self.model = LogisticRegression(max_iter=1100)  # استخدام نموذج Logistic Regression مع زيادة عدد الدورات
         self.vectorizer = CountVectorizer()  # استخدام تقنية Bag-of-Words
 
     def train(self, X_train, y_train):
@@ -53,39 +54,26 @@ class EmailClassifier:
             accuracies = []
             X = self.data['text']
             y = self.data['label']
-            for train_index, test_index in KFold(n_splits=2, shuffle=True, random_state=42).split(X):
-                X_train, X_test = X[train_index], X[test_index]  # تقسيم البيانات إلى تدريب واختبار
-                y_train, y_test = y[train_index], y[test_index]
-                model.train(X_train, y_train)  # تدريب النموذج
-                y_pred = model.predict(X_test)  # التنبؤ بالتصنيف
-                accuracy = accuracy_score(y_test, y_pred)  # حساب الدقة
-                accuracies.append(accuracy)
+            model.train(X, y)  # استخدام كل البيانات للتدريب
+            y_pred = model.predict(X)  # التنبؤ بالتصنيف
+            accuracy = accuracy_score(y, y_pred)  # حساب الدقة
+            accuracies.append(accuracy)
             results[model_name] = accuracies 
         return results
-    
-    def print_results(self, results):
-        for model_name, accuracies in results.items():
-            print(f"\nModel: {model_name}")
-            print("Average Accuracy:", sum(accuracies) / len(accuracies))  # طباعة متوسط الدقة لكل نموذج
-            X = self.data['text']
-            y = self.data['label']
-            model = self.models[model_name]
-            confusion_matrices = []  # قائمة لتخزين مصفوفات الارتباك لكل تجربة
-            for train_index, test_index in KFold(n_splits=5, shuffle=True, random_state=42).split(X):
-                X_train, X_test = X[train_index], X[test_index]  # تقسيم البيانات إلى تدريب واختبار
-                y_train, y_test = y[train_index], y[test_index]
-                model.train(X_train, y_train)  # تدريب النموذج
-                y_pred = model.predict(X_test)  # التنبؤ بالتصنيف
-                confusion_matrix_result = confusion_matrix(y_test, y_pred)  # حساب مصفوفة الارتباك
-                confusion_matrices.append(confusion_matrix_result)
-            average_confusion_matrix = sum(confusion_matrices) / len(confusion_matrices)
-            print("Average Confusion Matrix:")
-            print(average_confusion_matrix)  # طباعة متوسط مصفوفات الارتباك لكل نموذج
+
 
 if __name__ == "__main__":
     data_path = "C:\\Users\\sulim\\Downloads\\DataSets_for_Spam-Emails\\combined_data.csv"  # مسار ملف البيانات
     classifier = EmailClassifier(data_path)
     classifier.read_data()  # قراءة البيانات
     classifier.clean_data()  # تنظيف البيانات
-    results = classifier.train_models()  # تدريب النماذج
-    classifier.print_results(results)  # طباعة النتائج
+
+    # قراءة البيانات وتدريب النماذج
+    X = classifier.data['text']
+    y = classifier.data['label']
+
+    results = classifier.train_models()  # تدريب النماذج باستخدام كل البيانات المتاحة
+    for model_name, accuracies in results.items():
+        print(f"\nModel: {model_name}")
+        print("Average Accuracy:", sum(accuracies) / len(accuracies))  # طباعة متوسط الدقة لكل نموذج
+        confusion_matrix_result = confusion_matrix(y, classifier.models[model_name].predict(X))  # حساب مصفوفة الارتباك
