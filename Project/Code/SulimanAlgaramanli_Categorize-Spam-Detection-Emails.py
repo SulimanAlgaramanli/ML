@@ -34,7 +34,8 @@ class EmailClassifier:
     def __init__(self, data_path):
         self.data_path = data_path
         self.data = None
-        self.models = {'Naive Bayes': NaiveBayesModel(), 'Logistic Regression': LogisticRegressionModel()}
+        self.models = {'Naive Bayes': NaiveBayesModel(),
+                        'Logistic Regression': LogisticRegressionModel()}
 
     def read_data(self):
         self.data = pd.read_csv(self.data_path)
@@ -84,3 +85,16 @@ if __name__ == "__main__":
     nb_prediction, lr_prediction = classifier.predict_single_text(user_input)
     print("Naive Bayes Prediction:", nb_prediction)
     print("Logistic Regression Prediction:", lr_prediction)
+
+
+
+
+
+
+
+
+
+
+
+
+
